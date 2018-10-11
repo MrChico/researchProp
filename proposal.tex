@@ -1,0 +1,42 @@
+\input{../preamble.tex}
+\bibliographystyle{amsalphaurlmod}
+\begin{document}
+\title{Practical LADL \\
+  \large {Automatic typing systems for formally specified languages}}
+\author{Research grant proposal \\
+  Martin Lundfall, dapphub, \href{mailto:martin@dapp.org}{martin@dapp.org} 
+}
+\maketitle
+\abstract
+In \cite{stay2016logic}, Stay and Meredith proposes a general method for generating typing systems for programming languages under the slogan of \textit{logic as a distributive law}. This grant proposal outlines the project of implementing this procedure as a tool to become part of the K framework, making the algorithm available for any language defined in K.
+
+%The grant ask is 88 000 USD based on an estimated effort of 8 person months.
+%We are willing to accept RHOC as payment for as much as up to half of the desired amount. We ask for all code and IP developed as a part of this project to be open access and copyleft/share alike, such as (CC BY-SA 4.0, GPL).
+\section{Theory}
+The idea behind \textit{logic as a distributive law} (LADL) is that given a formal semantics of a programming language $L$, specifying its term structure and rewrite rules, and a language of \textit{collections}, $C$, specifying the algebra of some abstract container (such as sets, bags, trees or lists), we can combine the two to get a type language $T = L + C$. The language $T$ features the term constructors of both $L$ and $C$ combined, and given a translation of terms built using a constructor from $L$ applied to terms from $C$ to terms built using a constructor of $C$ applied to terms from $L$ (in other words a distributive natural transformation $\delta : C \circ L \implies L \circ C$), we can produce a type checker which interprets the types of $T$ as a collection of terms of $L$.
+
+The procedure is presented using the theory of enriched lawvere theories to represent operational semantics, a framework which, while providing very succinct descriptions and promising mathematical results \cite{Williams}, glosses over much of the technical details associated with the practice of formalizing programming languages. 
+
+One of the most advanced tool sets for programming language formalization and analysis is the $\mathbb{K}$ framework \cite{stefuanescu2016semantics}. It was developed on practical grounds to provide a convenient formalism for represent programming languages with an emphasis on universality, modularity, non-determinism, concurrency. The developers of $\mathbb{K}$ felt like neither of the two traditional theoretical frameworks, structural operational semantics, and rewrite theory were suitable for this task. \cite{rosu2010overview} Only recently has the authors of K begun to identify its underlying theory as \textit{Matching logic} \cite{rosu2017matching}. Matching logic, borrowing ideas from pattern matching provides a unified framework in which one can easily deal with concepts like variable binding, fixed points, unification/anti-unification, rewriting, reachability and contexts.
+
+The aim of this project is to translate LADL into a foundation more suitable for direct implementation in the K framework, so that the algorithm can be implemented in $\mathbb{K}$. Whether the target of the translation will be matching logic, a flavor of rewrite theory or structural operational semantics, the goal is to make sure that the procedure will be available to languages with a formal $\mathbb{K}$ definition.
+
+The implementation will be built using the new, haskell backend for the K framework, since it has a stronger theoretical foundation than the current java backend, and since the functional nature of haskell is more suitable for the ideas involved in implementing LADL. \cite{kore}.
+
+Since this project aims to yield a concrete algorithm for generating type languages for arbitrary languages, we will need to use both practical and theoretical methods for development. For example, besides translating the theory of LADL to matching logic, we will continuously work with a number of example languages, such as the algebra of monoids, lambda calculus, rho calculus, and the folklore imperative language IMP to practically see how to automate the procedure, or where problems arise.
+
+%\section{Research plan}
+%The project is estimated to require about 8 person months of work. The project will be executed by Martin Lundfall with some assistance from other dapphub personel, and advisory roles will be held by Everett Hildenbrandt at Runtime Verification and Christian Williams.
+
+%The research timeline is estimated as follows:
+
+%1-2 months: literature review and research into the translation of LADL into matching logic
+
+%2-3 months: pseudocoding, manual ladl for small language
+
+%3-6 months: implementation, PoC generation
+
+%6-8 months: optimization and minor tweaks, usability
+
+\bibliography{proposal}
+\end{document}
